@@ -184,7 +184,7 @@
     }
   ],
   "timeoutPolicy": "ALERT_ONLY",
-  "timeoutSeconds": 24000,
+  "timeoutSeconds": 31320,
   "version": 1,
   "workflowStatusListenerEnabled": false
 }

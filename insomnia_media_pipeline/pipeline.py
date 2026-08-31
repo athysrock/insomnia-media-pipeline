@@ -9,7 +9,7 @@ from typing import Any
 from .artifacts import atomic_write_json, read_json, sha256_file
 from .config import ConfigError, load_project_config
 from .contracts import CONTRACT_BY_NAME, STAGE_CONTRACTS
-from .preflight import run_preflight
+from .preflight import _validate_real_providers, run_preflight
 from .stages import HANDLERS
 
 
@@ -122,6 +122,8 @@ def _load_run(run_dir: Path) -> tuple[dict[str, Any], Any]:
     try:
         manifest = read_json(manifest_path)
         config = load_project_config(manifest["config_path"])
+        if config.mode == "real":
+            _validate_real_providers(config)
     except (OSError, ValueError, KeyError, ConfigError) as exc:
         raise PipelineError(f"cannot reconstruct run context: {exc}") from exc
     return manifest, config

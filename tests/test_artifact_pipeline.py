@@ -16,12 +16,28 @@ from insomnia_media_pipeline.pipeline import (
 )
 from insomnia_media_pipeline.config import load_project_config
 from insomnia_media_pipeline.media import ffmpeg_assemble_video
-from insomnia_media_pipeline.stages import _first_wav_signal, _png, _scene_assignments, _wav_duration
+from insomnia_media_pipeline.stages import (
+    _first_wav_signal,
+    _png,
+    _scene_assignments,
+    _selected_real_scenes,
+    _wav_duration,
+)
+from insomnia_media_pipeline.deadlines import MAX_REAL_SCENES
 
 from tests.helpers import make_project
 
 
 class ArtifactPipelineTests(unittest.TestCase):
+    def test_real_scene_selection_is_bounded_for_cumulative_provider_calls(self) -> None:
+        chunks = [{"text": f"chunk {index}"} for index in range(MAX_REAL_SCENES + 5)]
+        selected = "\n".join(f"scene {index}" for index in range(MAX_REAL_SCENES + 5))
+
+        scenes = _selected_real_scenes(selected, chunks)
+
+        self.assertEqual(MAX_REAL_SCENES, len(scenes))
+        self.assertEqual("scene 0", scenes[0])
+
     def test_omitted_voice_delivery_uses_soothing_project_defaults(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

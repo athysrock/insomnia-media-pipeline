@@ -18,6 +18,7 @@ from typing import Callable
 
 from .artifacts import atomic_write_bytes, atomic_write_json, atomic_write_text, read_json, sha256_file
 from .config import ProjectConfig
+from .deadlines import MAX_REAL_SCENES
 from .media import (
     ComfyUIClient,
     MediaError,
@@ -128,6 +129,11 @@ def _scene_assignments(chunks: list[dict], scene_count: int) -> list[dict]:
     return assignments
 
 
+def _selected_real_scenes(selected: str, chunks: list[dict]) -> list[str]:
+    scenes = [line.strip(" -*\t") for line in selected.splitlines() if line.strip(" -*\t")]
+    return scenes[: min(len(chunks), MAX_REAL_SCENES)] or [chunk["text"] for chunk in chunks[:MAX_REAL_SCENES]]
+
+
 def scene_prompts(run_dir: Path, config: ProjectConfig) -> None:
     story = _story(run_dir)
     selection_prompt = render_prompt(config, "scene_selection", story=story)
@@ -135,8 +141,7 @@ def scene_prompts(run_dir: Path, config: ProjectConfig) -> None:
     chunks = plan["chunks"]
     scenes = []
     if config.mode == "real":
-        selected = [line.strip(" -*\t") for line in _llm(config, selection_prompt).splitlines() if line.strip(" -*\t")]
-        scene_sources = selected[:len(chunks)] or [chunk["text"] for chunk in chunks]
+        scene_sources = _selected_real_scenes(_llm(config, selection_prompt), chunks)
     else:
         scene_sources = [chunk["text"] for chunk in chunks]
     assignments = _scene_assignments(chunks, len(scene_sources))

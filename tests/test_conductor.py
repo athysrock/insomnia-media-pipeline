@@ -6,6 +6,7 @@ import subprocess
 import unittest
 from pathlib import Path
 
+from conductor.definitions.generate_definitions import TIMEOUTS, task_definition
 from insomnia_media_pipeline.contracts import STAGE_CONTRACTS
 
 
@@ -45,6 +46,19 @@ class ConductorDefinitionTests(unittest.TestCase):
         self.assertEqual(["storyPath", "configPath", "runDir"], workflow["inputParameters"])
         self.assertTrue(all(task["type"] == "SIMPLE" for task in workflow["tasks"]))
         self.assertEqual("finalize", workflow["tasks"][-1]["inputParameters"]["payload"]["stage"])
+
+    def test_unheartbeated_stage_execution_cannot_outlive_response_deadline(self) -> None:
+        definitions = {stage: task_definition(stage) for stage in TIMEOUTS}
+
+        for stage, supported_execution_seconds in TIMEOUTS.items():
+            with self.subTest(stage=stage):
+                definition = definitions[stage]
+                self.assertGreaterEqual(definition["responseTimeoutSeconds"], supported_execution_seconds)
+                self.assertEqual(supported_execution_seconds, definition["timeoutSeconds"])
+
+        self.assertEqual(2400, definitions["tts"]["responseTimeoutSeconds"])
+        self.assertEqual(2400, definitions["music"]["responseTimeoutSeconds"])
+        self.assertEqual(5400, definitions["images"]["responseTimeoutSeconds"])
 
 
 if __name__ == "__main__":

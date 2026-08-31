@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+import json
+import urllib.parse
 import wave
 from pathlib import Path
 from typing import Any
 
-from .config import ConfigError, load_project_config
+from .config import ConfigError, ProjectConfig, load_project_config
+from .deadlines import MAX_COMFYUI_TIMEOUT_SECONDS, MAX_LLM_TIMEOUT_SECONDS
 from .prompts import PROMPT_FIELDS, read_prompt
 
 
@@ -49,10 +52,46 @@ def _inspect_voice(path: Path) -> dict[str, Any]:
     }
 
 
+def _bounded_timeout(section: dict[str, Any], dotted: str, default: int, maximum: int) -> None:
+    value = section.get("timeout_seconds", default)
+    if isinstance(value, bool) or not isinstance(value, int) or not 1 <= value <= maximum:
+        raise ConfigError(f"{dotted} must be an integer between 1 and {maximum}")
+
+
+def _validate_real_providers(config: ProjectConfig) -> None:
+    llm = config.raw.get("llm")
+    if not isinstance(llm, dict) or not isinstance(llm.get("command"), str) or not llm["command"].strip():
+        raise ConfigError("llm.command is required and must be non-empty text in real mode")
+    _bounded_timeout(llm, "llm.timeout_seconds", 900, MAX_LLM_TIMEOUT_SECONDS)
+
+    comfyui = config.raw.get("comfyui")
+    if not isinstance(comfyui, dict) or not isinstance(comfyui.get("api_url"), str) or not comfyui["api_url"].strip():
+        raise ConfigError("comfyui.api_url is required and must be non-empty text in real mode")
+    parsed_url = urllib.parse.urlsplit(comfyui["api_url"])
+    if parsed_url.scheme not in {"http", "https"} or not parsed_url.netloc:
+        raise ConfigError("comfyui.api_url must be an absolute http or https URL")
+    _bounded_timeout(comfyui, "comfyui.timeout_seconds", 300, MAX_COMFYUI_TIMEOUT_SECONDS)
+
+    workflow = comfyui.get("workflow_template")
+    if not isinstance(workflow, str) or not workflow.strip():
+        raise ConfigError("comfyui.workflow_template is required and must be non-empty text in real mode")
+    workflow_path = (config.path.parent / workflow).resolve()
+    try:
+        template = json.loads(workflow_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise ConfigError(f"comfyui.workflow_template must be a readable JSON file: {exc}") from exc
+    if not isinstance(template, dict) or not template:
+        raise ConfigError("comfyui.workflow_template must contain a non-empty JSON object")
+    if config.retries != 0:
+        raise ConfigError("runtime.retries must be 0 in real mode")
+
+
 def run_preflight(story_path: str | Path, config_path: str | Path) -> dict[str, Any]:
     story = Path(story_path).expanduser().resolve()
     word_count = _validate_story(story)
     config = load_project_config(config_path)
+    if config.mode == "real":
+        _validate_real_providers(config)
     voice = _inspect_voice(config.voice.reference_audio)
     if not config.prompts_directory.is_dir():
         raise ConfigError(f"prompts.directory does not exist: {config.prompts_directory}")

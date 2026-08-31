@@ -15,6 +15,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from insomnia_media_pipeline.contracts import STAGE_CONTRACTS
+from insomnia_media_pipeline.deadlines import STAGE_TIMEOUTS
 
 
 DEFINITIONS = Path(__file__).resolve().parent
@@ -22,23 +23,7 @@ WORKFLOWS = DEFINITIONS / "workflows"
 OWNER = "media-pipeline@local.invalid"
 WORKFLOW_NAME = "insomnia_media_pipeline_v1"
 
-TIMEOUTS = {
-    "init": 300,
-    "authoring": 1800,
-    "pacing": 1200,
-    "scene_prompts": 1200,
-    "tts": 2400,
-    "music_brief": 900,
-    "music": 2400,
-    "mix": 600,
-    "images": 5400,
-    "captions": 1800,
-    "caption_postprocess": 300,
-    "video": 2400,
-    "thumbnail": 600,
-    "audit": 600,
-    "finalize": 300,
-}
+TIMEOUTS = STAGE_TIMEOUTS
 
 
 def _task_name(stage: str) -> str:
@@ -67,7 +52,7 @@ def task_definition(stage: str) -> dict[str, Any]:
         "pollTimeoutSeconds": 30,
         "rateLimitFrequencyInSeconds": 1,
         "rateLimitPerFrequency": 0,
-        "responseTimeoutSeconds": min(300, timeout),
+        "responseTimeoutSeconds": timeout,
         "retryCount": 0,
         "retryDelaySeconds": 30,
         "retryLogic": "FIXED",

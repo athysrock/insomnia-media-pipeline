@@ -232,8 +232,8 @@ def load_project_config(path: str | Path) -> ProjectConfig:
     overlap = music.get("overlap")
     if isinstance(segment_duration, bool) or not isinstance(segment_duration, int) or segment_duration < 2:
         raise ConfigError("music.segment_duration must be an integer of at least 2")
-    if isinstance(overlap, bool) or not isinstance(overlap, int) or not 0 <= overlap < segment_duration:
-        raise ConfigError("music.overlap must be an integer smaller than music.segment_duration")
+    if isinstance(overlap, bool) or not isinstance(overlap, int) or not 1 <= overlap < segment_duration:
+        raise ConfigError("music.overlap must be a positive integer smaller than music.segment_duration")
 
     return ProjectConfig(
         path=config_path,

@@ -60,26 +60,17 @@ The terminal `audit/audit.json` deterministically hashes local artifacts. `packa
 
 ### 8 GB GPU worker sequence
 
-TTS and MusicGen must not share the GPU at the same time. Start a general worker that explicitly excludes both tasks and launch the workflow. Wait until Conductor schedules TTS, then run its worker once in the foreground. `--once` reports completion to Conductor before the process exits. Confirm the atomic receipt, then start MusicGen:
+TTS and MusicGen must not share the GPU at the same time. Use the fail-closed helper with the Python executable for each provider environment. It stops the retained general worker before GPU work, runs each GPU worker once, verifies `RUN_DIR/staging/receipts/tts.json` after the TTS process exits, and starts MusicGen only then. After the MusicGen process exits and its receipt exists, the helper restarts the general worker for image and caption work:
 
 ```bash
-python3 -m conductor.worker --url CONDUCTOR_URL \
-  --exclude-task insomnia_media_pipeline_tts \
-  --exclude-task insomnia_media_pipeline_music &
-WORKFLOW_ID=$(python3 -m conductor.client launch --url CONDUCTOR_URL \
-  --story STORY --config CONFIG --run-dir RUN_DIR | \
-  python3 -c 'import json,sys; print(json.load(sys.stdin)["workflow_id"])')
-until python3 -m conductor.client monitor --url CONDUCTOR_URL --workflow-id "$WORKFLOW_ID" | \
-  python3 -c 'import json,sys; d=json.load(sys.stdin); raise SystemExit(not any(t.get("taskDefName") == "insomnia_media_pipeline_tts" and t.get("status") == "SCHEDULED" for t in d.get("tasks", [])))'
-do sleep 2; done
-/path/to/tts/bin/python -m conductor.worker --url CONDUCTOR_URL \
-  --task insomnia_media_pipeline_tts --once
-test -f RUN_DIR/receipts/tts.json
-/path/to/musicgen/bin/python -m conductor.worker --url CONDUCTOR_URL \
-  --task insomnia_media_pipeline_music
+PYTHON=/path/to/general/bin/python \
+TTS_PYTHON=/path/to/tts/bin/python \
+MUSICGEN_PYTHON=/path/to/musicgen/bin/python \
+CONDUCTOR_URL=http://localhost:8080 \
+tools/run_8gb_sequence.sh STORY CONFIG RUN_DIR
 ```
 
-Do not start the MusicGen worker early: a polling worker can claim the task as soon as TTS completes, before the TTS process releases GPU memory.
+The helper monitors the workflow to a terminal result and terminates the retained general-worker PID on success, provider failure, workflow failure, or interruption. Do not start a separate MusicGen worker early: a polling worker can claim the task before the TTS process releases GPU memory.
 
 ## License
 

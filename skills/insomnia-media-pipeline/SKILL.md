@@ -53,26 +53,17 @@ Remember that config and prompt templates are live reads. They are not copied in
 
 ## Launch and monitor
 
-Use the generated Conductor definition for durable real-media execution. Let Conductor own retries and recovery. Provider-specific workers may use separate Python environments. On an 8 GB GPU, the TTS process must exit before the MusicGen process starts. The general worker excludes both GPU tasks. Wait for Conductor to schedule TTS, then run its worker once in the foreground so it reports completion before exiting. Start MusicGen only after that process has terminated and the atomic TTS receipt exists:
+Use the generated Conductor definition for durable real-media execution. Provider-specific workers may use separate Python environments. On an 8 GB GPU, run the fail-closed helper with those executables:
 
 ```bash
-python3 conductor/definitions/generate_definitions.py
-python3 -m conductor.client register --url CONDUCTOR_URL
-python3 -m conductor.worker --url CONDUCTOR_URL \
-  --exclude-task insomnia_media_pipeline_tts \
-  --exclude-task insomnia_media_pipeline_music &
-WORKFLOW_ID=$(python3 -m conductor.client launch --url CONDUCTOR_URL \
-  --story STORY --config CONFIG --run-dir RUN_DIR | \
-  python3 -c 'import json,sys; print(json.load(sys.stdin)["workflow_id"])')
-until python3 -m conductor.client monitor --url CONDUCTOR_URL --workflow-id "$WORKFLOW_ID" | \
-  python3 -c 'import json,sys; d=json.load(sys.stdin); raise SystemExit(not any(t.get("taskDefName") == "insomnia_media_pipeline_tts" and t.get("status") == "SCHEDULED" for t in d.get("tasks", [])))'
-do sleep 2; done
-/path/to/tts/bin/python -m conductor.worker --url CONDUCTOR_URL \
-  --task insomnia_media_pipeline_tts --once
-test -f RUN_DIR/receipts/tts.json
-/path/to/musicgen/bin/python -m conductor.worker --url CONDUCTOR_URL \
-  --task insomnia_media_pipeline_music
+PYTHON=/path/to/general/bin/python \
+TTS_PYTHON=/path/to/tts/bin/python \
+MUSICGEN_PYTHON=/path/to/musicgen/bin/python \
+CONDUCTOR_URL=http://localhost:8080 \
+tools/run_8gb_sequence.sh STORY CONFIG RUN_DIR
 ```
+
+The helper stops and waits for the general worker before GPU work, runs TTS once and waits for its process to exit, verifies `RUN_DIR/staging/receipts/tts.json`, and only then runs MusicGen once. It verifies the MusicGen receipt and restarts the general worker only after that process exits, releasing VRAM before image and caption work. It fails closed on provider, worker, or workflow errors and cleans up the retained worker on every exit path.
 
 When a provider stage fails after Conductor has durably accepted prior stages, release the conflicting GPU process and use Conductor's workflow `retry` operation to retry the failed stage. Do not use workflow `restart`: this restarts `init`, which correctly rejects the non-empty retained run directory.
 
