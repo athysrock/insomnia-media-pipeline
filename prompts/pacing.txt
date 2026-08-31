@@ -1,0 +1,4 @@
+Prepare the story for spoken narration. Keep wording natural, sentence boundaries clear, and pauses motivated by the requested tone. Creative prose guidance affects authoring and pacing only; it is not a native speech-model control. Return paced prose only.
+
+Story:
+{story}

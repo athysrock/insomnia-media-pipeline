@@ -1,0 +1,4 @@
+Write one concise cinematic image-generation prompt for the supplied scene. Describe subjects, action, setting, lighting, composition, and continuity. Request no visible words, captions, marks, or interface elements.
+
+Scene:
+{scene}

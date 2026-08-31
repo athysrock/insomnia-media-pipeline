@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "insomnia-media-pipeline"
+version = "0.1.0"
+description = "Neutral artifact-driven local story-to-video pipeline"
+requires-python = ">=3.11"
+dependencies = []
+license = {text = "MIT"}
+
+[project.scripts]
+insomnia-media-pipeline = "insomnia_media_pipeline.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["insomnia_media_pipeline*", "conductor*"]
+
+[tool.setuptools.package-data]
+conductor = ["definitions/*.json", "definitions/workflows/*.json"]

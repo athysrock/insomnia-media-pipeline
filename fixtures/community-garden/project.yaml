@@ -1,0 +1,24 @@
+project:
+  name: Community Garden Day
+voice:
+  reference_audio: voice-reference.wav
+music:
+  direction: Light hand percussion and warm acoustic colors that grow toward a shared celebration
+  model: facebook/musicgen-small
+  segment_duration: 30
+  overlap: 5
+prompts:
+  directory: ../../prompts
+runtime:
+  mode: synthetic
+  retries: 2
+mix:
+  music_volume: 0.18
+video:
+  width: 1920
+  height: 1080
+  fps: 24
+  crf: 18
+thumbnail:
+  width: 1280
+  height: 720

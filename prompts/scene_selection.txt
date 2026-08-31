@@ -1,0 +1,4 @@
+Select a compact sequence of visually distinct moments that covers the full supplied story in order. Each line must describe one moment. Preserve the story's tone and continuity.
+
+Story:
+{story}

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "scope": "local-package-v1",
+  "durable_orchestrator": "Conductor",
+  "runtime": {
+    "minimum_python": "3.11",
+    "provider_free_commands": [
+      "preflight",
+      "dry-run",
+      "synthetic-run",
+      "status"
+    ]
+  },
+  "optional_real_media": {
+    "speech": "Chatterbox with reference audio and three native generation controls",
+    "music": "MusicGen continuation from the persisted dynamic brief",
+    "images": "ComfyUI direct queue API with lifecycle and per-image checkpoints",
+    "captions": "WhisperX command with deterministic SRT postprocessing",
+    "assembly": "ffmpeg audio mix, pitch-preserving atempo, video assembly, and thumbnail scaling"
+  },
+  "excluded": [
+    "story discovery",
+    "catalog state",
+    "destination integration",
+    "remote side effects"
+  ]
+}

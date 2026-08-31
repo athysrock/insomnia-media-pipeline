@@ -1,0 +1,317 @@
+[
+  {
+    "backoffScaleFactor": 1,
+    "concurrentExecLimit": 1,
+    "description": "Execute the artifact-driven init stage.",
+    "inputKeys": [
+      "payload"
+    ],
+    "inputTemplate": {},
+    "name": "insomnia_media_pipeline_init",
+    "outputKeys": [],
+    "ownerEmail": "media-pipeline@local.invalid",
+    "pollTimeoutSeconds": 30,
+    "rateLimitFrequencyInSeconds": 1,
+    "rateLimitPerFrequency": 0,
+    "responseTimeoutSeconds": 300,
+    "retryCount": 0,
+    "retryDelaySeconds": 30,
+    "retryLogic": "FIXED",
+    "timeoutPolicy": "RETRY",
+    "timeoutSeconds": 300
+  },
+  {
+    "backoffScaleFactor": 1,
+    "concurrentExecLimit": 1,
+    "description": "Execute the artifact-driven authoring stage.",
+    "inputKeys": [
+      "payload"
+    ],
+    "inputTemplate": {},
+    "name": "insomnia_media_pipeline_authoring",
+    "outputKeys": [],
+    "ownerEmail": "media-pipeline@local.invalid",
+    "pollTimeoutSeconds": 30,
+    "rateLimitFrequencyInSeconds": 1,
+    "rateLimitPerFrequency": 0,
+    "responseTimeoutSeconds": 300,
+    "retryCount": 0,
+    "retryDelaySeconds": 30,
+    "retryLogic": "FIXED",
+    "timeoutPolicy": "RETRY",
+    "timeoutSeconds": 1800
+  },
+  {
+    "backoffScaleFactor": 1,
+    "concurrentExecLimit": 1,
+    "description": "Execute the artifact-driven pacing stage.",
+    "inputKeys": [
+      "payload"
+    ],
+    "inputTemplate": {},
+    "name": "insomnia_media_pipeline_pacing",
+    "outputKeys": [],
+    "ownerEmail": "media-pipeline@local.invalid",
+    "pollTimeoutSeconds": 30,
+    "rateLimitFrequencyInSeconds": 1,
+    "rateLimitPerFrequency": 0,
+    "responseTimeoutSeconds": 300,
+    "retryCount": 0,
+    "retryDelaySeconds": 30,
+    "retryLogic": "FIXED",
+    "timeoutPolicy": "RETRY",
+    "timeoutSeconds": 1200
+  },
+  {
+    "backoffScaleFactor": 1,
+    "concurrentExecLimit": 1,
+    "description": "Execute the artifact-driven scene_prompts stage.",
+    "inputKeys": [
+      "payload"
+    ],
+    "inputTemplate": {},
+    "name": "insomnia_media_pipeline_scene_prompts",
+    "outputKeys": [],
+    "ownerEmail": "media-pipeline@local.invalid",
+    "pollTimeoutSeconds": 30,
+    "rateLimitFrequencyInSeconds": 1,
+    "rateLimitPerFrequency": 0,
+    "responseTimeoutSeconds": 300,
+    "retryCount": 0,
+    "retryDelaySeconds": 30,
+    "retryLogic": "FIXED",
+    "timeoutPolicy": "RETRY",
+    "timeoutSeconds": 1200
+  },
+  {
+    "backoffScaleFactor": 1,
+    "concurrentExecLimit": 1,
+    "description": "Execute the artifact-driven tts stage.",
+    "inputKeys": [
+      "payload"
+    ],
+    "inputTemplate": {},
+    "name": "insomnia_media_pipeline_tts",
+    "outputKeys": [],
+    "ownerEmail": "media-pipeline@local.invalid",
+    "pollTimeoutSeconds": 30,
+    "rateLimitFrequencyInSeconds": 1,
+    "rateLimitPerFrequency": 0,
+    "responseTimeoutSeconds": 300,
+    "retryCount": 0,
+    "retryDelaySeconds": 30,
+    "retryLogic": "FIXED",
+    "timeoutPolicy": "RETRY",
+    "timeoutSeconds": 2400
+  },
+  {
+    "backoffScaleFactor": 1,
+    "concurrentExecLimit": 1,
+    "description": "Execute the artifact-driven music_brief stage.",
+    "inputKeys": [
+      "payload"
+    ],
+    "inputTemplate": {},
+    "name": "insomnia_media_pipeline_music_brief",
+    "outputKeys": [],
+    "ownerEmail": "media-pipeline@local.invalid",
+    "pollTimeoutSeconds": 30,
+    "rateLimitFrequencyInSeconds": 1,
+    "rateLimitPerFrequency": 0,
+    "responseTimeoutSeconds": 300,
+    "retryCount": 0,
+    "retryDelaySeconds": 30,
+    "retryLogic": "FIXED",
+    "timeoutPolicy": "RETRY",
+    "timeoutSeconds": 900
+  },
+  {
+    "backoffScaleFactor": 1,
+    "concurrentExecLimit": 1,
+    "description": "Execute the artifact-driven music stage.",
+    "inputKeys": [
+      "payload"
+    ],
+    "inputTemplate": {},
+    "name": "insomnia_media_pipeline_music",
+    "outputKeys": [],
+    "ownerEmail": "media-pipeline@local.invalid",
+    "pollTimeoutSeconds": 30,
+    "rateLimitFrequencyInSeconds": 1,
+    "rateLimitPerFrequency": 0,
+    "responseTimeoutSeconds": 300,
+    "retryCount": 0,
+    "retryDelaySeconds": 30,
+    "retryLogic": "FIXED",
+    "timeoutPolicy": "RETRY",
+    "timeoutSeconds": 2400
+  },
+  {
+    "backoffScaleFactor": 1,
+    "concurrentExecLimit": 1,
+    "description": "Execute the artifact-driven mix stage.",
+    "inputKeys": [
+      "payload"
+    ],
+    "inputTemplate": {},
+    "name": "insomnia_media_pipeline_mix",
+    "outputKeys": [],
+    "ownerEmail": "media-pipeline@local.invalid",
+    "pollTimeoutSeconds": 30,
+    "rateLimitFrequencyInSeconds": 1,
+    "rateLimitPerFrequency": 0,
+    "responseTimeoutSeconds": 300,
+    "retryCount": 0,
+    "retryDelaySeconds": 30,
+    "retryLogic": "FIXED",
+    "timeoutPolicy": "RETRY",
+    "timeoutSeconds": 600
+  },
+  {
+    "backoffScaleFactor": 1,
+    "concurrentExecLimit": 1,
+    "description": "Execute the artifact-driven images stage.",
+    "inputKeys": [
+      "payload"
+    ],
+    "inputTemplate": {},
+    "name": "insomnia_media_pipeline_images",
+    "outputKeys": [],
+    "ownerEmail": "media-pipeline@local.invalid",
+    "pollTimeoutSeconds": 30,
+    "rateLimitFrequencyInSeconds": 1,
+    "rateLimitPerFrequency": 0,
+    "responseTimeoutSeconds": 300,
+    "retryCount": 0,
+    "retryDelaySeconds": 30,
+    "retryLogic": "FIXED",
+    "timeoutPolicy": "RETRY",
+    "timeoutSeconds": 5400
+  },
+  {
+    "backoffScaleFactor": 1,
+    "concurrentExecLimit": 1,
+    "description": "Execute the artifact-driven captions stage.",
+    "inputKeys": [
+      "payload"
+    ],
+    "inputTemplate": {},
+    "name": "insomnia_media_pipeline_captions",
+    "outputKeys": [],
+    "ownerEmail": "media-pipeline@local.invalid",
+    "pollTimeoutSeconds": 30,
+    "rateLimitFrequencyInSeconds": 1,
+    "rateLimitPerFrequency": 0,
+    "responseTimeoutSeconds": 300,
+    "retryCount": 0,
+    "retryDelaySeconds": 30,
+    "retryLogic": "FIXED",
+    "timeoutPolicy": "RETRY",
+    "timeoutSeconds": 1800
+  },
+  {
+    "backoffScaleFactor": 1,
+    "concurrentExecLimit": 1,
+    "description": "Execute the artifact-driven caption_postprocess stage.",
+    "inputKeys": [
+      "payload"
+    ],
+    "inputTemplate": {},
+    "name": "insomnia_media_pipeline_caption_postprocess",
+    "outputKeys": [],
+    "ownerEmail": "media-pipeline@local.invalid",
+    "pollTimeoutSeconds": 30,
+    "rateLimitFrequencyInSeconds": 1,
+    "rateLimitPerFrequency": 0,
+    "responseTimeoutSeconds": 300,
+    "retryCount": 0,
+    "retryDelaySeconds": 30,
+    "retryLogic": "FIXED",
+    "timeoutPolicy": "RETRY",
+    "timeoutSeconds": 300
+  },
+  {
+    "backoffScaleFactor": 1,
+    "concurrentExecLimit": 1,
+    "description": "Execute the artifact-driven video stage.",
+    "inputKeys": [
+      "payload"
+    ],
+    "inputTemplate": {},
+    "name": "insomnia_media_pipeline_video",
+    "outputKeys": [],
+    "ownerEmail": "media-pipeline@local.invalid",
+    "pollTimeoutSeconds": 30,
+    "rateLimitFrequencyInSeconds": 1,
+    "rateLimitPerFrequency": 0,
+    "responseTimeoutSeconds": 300,
+    "retryCount": 0,
+    "retryDelaySeconds": 30,
+    "retryLogic": "FIXED",
+    "timeoutPolicy": "RETRY",
+    "timeoutSeconds": 2400
+  },
+  {
+    "backoffScaleFactor": 1,
+    "concurrentExecLimit": 1,
+    "description": "Execute the artifact-driven thumbnail stage.",
+    "inputKeys": [
+      "payload"
+    ],
+    "inputTemplate": {},
+    "name": "insomnia_media_pipeline_thumbnail",
+    "outputKeys": [],
+    "ownerEmail": "media-pipeline@local.invalid",
+    "pollTimeoutSeconds": 30,
+    "rateLimitFrequencyInSeconds": 1,
+    "rateLimitPerFrequency": 0,
+    "responseTimeoutSeconds": 300,
+    "retryCount": 0,
+    "retryDelaySeconds": 30,
+    "retryLogic": "FIXED",
+    "timeoutPolicy": "RETRY",
+    "timeoutSeconds": 600
+  },
+  {
+    "backoffScaleFactor": 1,
+    "concurrentExecLimit": 1,
+    "description": "Execute the artifact-driven audit stage.",
+    "inputKeys": [
+      "payload"
+    ],
+    "inputTemplate": {},
+    "name": "insomnia_media_pipeline_audit",
+    "outputKeys": [],
+    "ownerEmail": "media-pipeline@local.invalid",
+    "pollTimeoutSeconds": 30,
+    "rateLimitFrequencyInSeconds": 1,
+    "rateLimitPerFrequency": 0,
+    "responseTimeoutSeconds": 300,
+    "retryCount": 0,
+    "retryDelaySeconds": 30,
+    "retryLogic": "FIXED",
+    "timeoutPolicy": "RETRY",
+    "timeoutSeconds": 600
+  },
+  {
+    "backoffScaleFactor": 1,
+    "concurrentExecLimit": 1,
+    "description": "Execute the artifact-driven finalize stage.",
+    "inputKeys": [
+      "payload"
+    ],
+    "inputTemplate": {},
+    "name": "insomnia_media_pipeline_finalize",
+    "outputKeys": [],
+    "ownerEmail": "media-pipeline@local.invalid",
+    "pollTimeoutSeconds": 30,
+    "rateLimitFrequencyInSeconds": 1,
+    "rateLimitPerFrequency": 0,
+    "responseTimeoutSeconds": 300,
+    "retryCount": 0,
+    "retryDelaySeconds": 30,
+    "retryLogic": "FIXED",
+    "timeoutPolicy": "RETRY",
+    "timeoutSeconds": 300
+  }
+]

@@ -1,0 +1,4 @@
+Describe one clear, inviting thumbnail composition that represents the supplied story without adding events. Favor a readable focal subject, expressive action, clean negative space, and no rendered text.
+
+Story:
+{story}

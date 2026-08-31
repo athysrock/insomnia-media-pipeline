@@ -1,0 +1,190 @@
+{
+  "description": "One-story local media package with deterministic audit and finalize.",
+  "inputParameters": [
+    "storyPath",
+    "configPath",
+    "runDir"
+  ],
+  "name": "insomnia_media_pipeline_v1",
+  "outputParameters": {
+    "package": "${stage_finalize.output.package}",
+    "runDir": "${workflow.input.runDir}",
+    "status": "${stage_finalize.output.status}"
+  },
+  "ownerEmail": "media-pipeline@local.invalid",
+  "restartable": true,
+  "schemaVersion": 2,
+  "tasks": [
+    {
+      "inputParameters": {
+        "payload": {
+          "configPath": "${workflow.input.configPath}",
+          "runDir": "${workflow.input.runDir}",
+          "stage": "init",
+          "storyPath": "${workflow.input.storyPath}"
+        }
+      },
+      "name": "insomnia_media_pipeline_init",
+      "taskReferenceName": "stage_init",
+      "type": "SIMPLE"
+    },
+    {
+      "inputParameters": {
+        "payload": {
+          "runDir": "${workflow.input.runDir}",
+          "stage": "authoring"
+        }
+      },
+      "name": "insomnia_media_pipeline_authoring",
+      "taskReferenceName": "stage_authoring",
+      "type": "SIMPLE"
+    },
+    {
+      "inputParameters": {
+        "payload": {
+          "runDir": "${workflow.input.runDir}",
+          "stage": "pacing"
+        }
+      },
+      "name": "insomnia_media_pipeline_pacing",
+      "taskReferenceName": "stage_pacing",
+      "type": "SIMPLE"
+    },
+    {
+      "inputParameters": {
+        "payload": {
+          "runDir": "${workflow.input.runDir}",
+          "stage": "scene_prompts"
+        }
+      },
+      "name": "insomnia_media_pipeline_scene_prompts",
+      "taskReferenceName": "stage_scene_prompts",
+      "type": "SIMPLE"
+    },
+    {
+      "inputParameters": {
+        "payload": {
+          "runDir": "${workflow.input.runDir}",
+          "stage": "tts"
+        }
+      },
+      "name": "insomnia_media_pipeline_tts",
+      "taskReferenceName": "stage_tts",
+      "type": "SIMPLE"
+    },
+    {
+      "inputParameters": {
+        "payload": {
+          "runDir": "${workflow.input.runDir}",
+          "stage": "music_brief"
+        }
+      },
+      "name": "insomnia_media_pipeline_music_brief",
+      "taskReferenceName": "stage_music_brief",
+      "type": "SIMPLE"
+    },
+    {
+      "inputParameters": {
+        "payload": {
+          "runDir": "${workflow.input.runDir}",
+          "stage": "music"
+        }
+      },
+      "name": "insomnia_media_pipeline_music",
+      "taskReferenceName": "stage_music",
+      "type": "SIMPLE"
+    },
+    {
+      "inputParameters": {
+        "payload": {
+          "runDir": "${workflow.input.runDir}",
+          "stage": "mix"
+        }
+      },
+      "name": "insomnia_media_pipeline_mix",
+      "taskReferenceName": "stage_mix",
+      "type": "SIMPLE"
+    },
+    {
+      "inputParameters": {
+        "payload": {
+          "runDir": "${workflow.input.runDir}",
+          "stage": "images"
+        }
+      },
+      "name": "insomnia_media_pipeline_images",
+      "taskReferenceName": "stage_images",
+      "type": "SIMPLE"
+    },
+    {
+      "inputParameters": {
+        "payload": {
+          "runDir": "${workflow.input.runDir}",
+          "stage": "captions"
+        }
+      },
+      "name": "insomnia_media_pipeline_captions",
+      "taskReferenceName": "stage_captions",
+      "type": "SIMPLE"
+    },
+    {
+      "inputParameters": {
+        "payload": {
+          "runDir": "${workflow.input.runDir}",
+          "stage": "caption_postprocess"
+        }
+      },
+      "name": "insomnia_media_pipeline_caption_postprocess",
+      "taskReferenceName": "stage_caption_postprocess",
+      "type": "SIMPLE"
+    },
+    {
+      "inputParameters": {
+        "payload": {
+          "runDir": "${workflow.input.runDir}",
+          "stage": "video"
+        }
+      },
+      "name": "insomnia_media_pipeline_video",
+      "taskReferenceName": "stage_video",
+      "type": "SIMPLE"
+    },
+    {
+      "inputParameters": {
+        "payload": {
+          "runDir": "${workflow.input.runDir}",
+          "stage": "thumbnail"
+        }
+      },
+      "name": "insomnia_media_pipeline_thumbnail",
+      "taskReferenceName": "stage_thumbnail",
+      "type": "SIMPLE"
+    },
+    {
+      "inputParameters": {
+        "payload": {
+          "runDir": "${workflow.input.runDir}",
+          "stage": "audit"
+        }
+      },
+      "name": "insomnia_media_pipeline_audit",
+      "taskReferenceName": "stage_audit",
+      "type": "SIMPLE"
+    },
+    {
+      "inputParameters": {
+        "payload": {
+          "runDir": "${workflow.input.runDir}",
+          "stage": "finalize"
+        }
+      },
+      "name": "insomnia_media_pipeline_finalize",
+      "taskReferenceName": "stage_finalize",
+      "type": "SIMPLE"
+    }
+  ],
+  "timeoutPolicy": "ALERT_ONLY",
+  "timeoutSeconds": 24000,
+  "version": 1,
+  "workflowStatusListenerEnabled": false
+}

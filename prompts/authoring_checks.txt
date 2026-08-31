@@ -1,0 +1,4 @@
+Apply deterministic checks to this authored story: it must be non-empty UTF-8 prose and contain between 5 and 20000 words. Report defects precisely; do not select another story.
+
+Story under test:
+{story}

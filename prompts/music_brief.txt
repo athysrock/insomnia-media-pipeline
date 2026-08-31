@@ -1,0 +1,7 @@
+Write a concise instrumental scoring brief grounded in the supplied story and configured direction. Mention story-specific motion and emotional progression, leave room for narration, and do not fall back to a preset genre.
+
+Configured direction:
+{direction}
+
+Story:
+{story}

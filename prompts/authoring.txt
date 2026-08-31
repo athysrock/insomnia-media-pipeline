@@ -1,0 +1,4 @@
+Edit only the caller-supplied story below. Preserve its events, viewpoint, names, and intended tone. Improve clarity and spoken flow without selecting or inventing a replacement story. Return story prose only.
+
+Caller story:
+{story}

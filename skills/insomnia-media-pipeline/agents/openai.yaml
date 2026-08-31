@@ -1,0 +1,4 @@
+interface:
+  display_name: "Insomnia Media Pipeline"
+  short_description: "Run one story to a verified local package"
+  default_prompt: "Use $insomnia-media-pipeline to validate and run one local story project."
